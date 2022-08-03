@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pagingquotes.paging.LoaderAdapter
@@ -12,6 +13,7 @@ import com.example.pagingquotes.viewmodels.Viewmodels
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
+@ExperimentalPagingApi
 class MainActivity : AppCompatActivity() {
     lateinit var viewModel: Viewmodels
     lateinit var recyclerView: RecyclerView
@@ -27,8 +29,8 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
-            header = LoaderAdapter(),
-            footer = LoaderAdapter()
+            header = LoaderAdapter { adapter.retry() },
+            footer = LoaderAdapter { adapter.retry() }
         )
 
         viewModel.list.observe(this, Observer {
