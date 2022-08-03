@@ -5,6 +5,8 @@ import androidx.paging.PagingState
 import com.example.pagingquotes.api.QuoteApi
 import com.example.pagingquotes.models.Result
 import com.example.pagingquotes.utils.Constant
+import retrofit2.HttpException
+import java.io.IOException
 
 class QuotePagingSource(private val quoteApi: QuoteApi): PagingSource<Int, Result>() {
     override fun getRefreshKey(state: PagingState<Int, Result>): Int? {
@@ -23,8 +25,10 @@ class QuotePagingSource(private val quoteApi: QuoteApi): PagingSource<Int, Resul
                 prevKey = if(position==Constant.DEFAULT_PAGE) null else position-1,
                 nextKey = if(position==result.totalPages) null else position+1
             )
-        }catch (e : Exception){
-            LoadResult.Error(e)
+        }catch (exception: IOException) {
+            return LoadResult.Error(exception)
+        } catch (exception: HttpException) {
+            return LoadResult.Error(exception)
         }
     }
 }

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pagingquotes.R
 import com.example.pagingquotes.models.Result
 
-class QuotePagingAdapter: PagingDataAdapter<Result, QuotePagingAdapter.QuoteViewHolder>(
+class QuotePagingAdapter(): PagingDataAdapter<Result, QuotePagingAdapter.QuoteViewHolder>(
     DIFF_CALLBACK) {
     inner class QuoteViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val textView: TextView = itemView.findViewById(R.id.textView)
